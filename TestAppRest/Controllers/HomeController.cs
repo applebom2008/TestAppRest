@@ -41,7 +41,7 @@ namespace TestAppRest.Controllers
         [Route("Test")]
         public string Test([FromUri] string pInput)
         {
-            string lResult = "Parameter = " + pInput;
+            string lResult = "Parameter = " + pInput + "QWE";
             return lResult;
         }
 
