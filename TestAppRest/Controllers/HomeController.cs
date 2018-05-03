@@ -37,17 +37,17 @@ namespace TestAppRest.Controllers
         //{
         //}
 
-        [HttpGet]        
+        [HttpGet]
         [Route("Test")]
         public string Test([FromUri] string pInput)
         {
-            string lResult = "Test";            
-            return lResult;            
+            string lResult = "Parameter = " + pInput;
+            return lResult;
         }
 
         [HttpGet]
         [Route("Test2")]
-        public string Test2(string pInput)
+        public string Test2()
         {
             string lResult = "Test 2";
             return lResult;
