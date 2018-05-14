@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Transactions;
 
 namespace TestAppRest.Controllers
 {
@@ -42,6 +43,38 @@ namespace TestAppRest.Controllers
         public string Test([FromUri] string pInput)
         {
             string lResult = "Parameter = " + pInput;
+            using (TestEntities db = new TestEntities())
+            {
+                using (var tran = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        db.CUSTOMER.Add(new CUSTOMER()
+                        {
+                            CUSTOMER_ID = "C005",
+                            NAME = "Rut Wisarut",
+                            EMAIL = "rut.wisarut@thaicreate.com",
+                            COUNTRY_CODE = "TH",
+                            BUDGET = 5000000,
+                            USED = 0,
+                        });
+                        db.SaveChanges();
+                        tran.Commit();
+                    }
+                    catch
+                    {
+                        tran.Rollback();
+                    }
+                }
+                //var ds = (from c in db.CUSTOMER
+                //          where c.COUNTRY_CODE == "US"
+                //          select c).ToList();
+
+                //foreach (var item in ds)
+                //{
+                //    lResult += " item = " + item.NAME;
+                //}
+            }
             return lResult;
         }
 
